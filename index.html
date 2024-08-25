@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encript@dor De T3xto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body class="color-change-5x">
+    <header>
+        <a class="header__logo">
+            <img src="./img/logo.png" alt="logo alura">
+        </a>
+    </header>
+    
+    <div class="container">
+        <aside class="imagen__container">
+            <img class="presentacion__imagen" src="./img/Imagen-encriptador.jpeg" alt="imagen buscador">
+        </aside>
+        
+        <main class="main__contenido">
+            <section class="container__contenido">
+                <div class="input__contenido">
+                    <div class="coolinput">
+                        <textarea id="input-text" placeholder="Escribe el texto aquí..." name="input-text" class="input" autocomplete="off"></textarea>
+                        <textarea id="output-text" placeholder="Resultado..." name="output-text" class="input" autocomplete="off"></textarea>
+                    </div>
+                    <div class="info">
+                        <span class="icon"><i class="fas fa-exclamation-circle"></i></span> Solo letras minúsculas y sin acentos
+                    </div>
+                    <div class="buttons">
+                        <button onclick="encryptText()">Encriptar</button>
+                        <button onclick="decryptText()">Desencriptar</button>
+                        <button onclick="copyText()">Copiar</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="footer">
+        <p>Desarrollado por: Rafael Alejandro Méndez</p>
+        <p>Contacto: Email.  ejemplo@outlook.com</p>
+    </footer>
+    <script src="app.js"></script>
+    <script>
+        document.getElementById("input-text").addEventListener("input", function() {
+            this.value = cleanText(this.value);
+            document.getElementById("output-text").value = ""; // Limpia el campo de salida
+            autoResize(this);
+        });
+
+        document.getElementById("output-text").addEventListener("input", function() {
+            autoResize(this);
+        });
+
+        // Función para encriptar el texto
+        function encryptText() {
+            const text = document.getElementById("input-text").value;
+            const encryptedText = text
+                .replace(/e/g, "enter")
+                .replace(/i/g, "imes")
+                .replace(/a/g, "ai")
+                .replace(/o/g, "ober")
+                .replace(/u/g, "ufat");
+
+            document.getElementById("output-text").value = encryptedText;
+            autoResize(document.getElementById("output-text"));
+        }
+
+        // Función para desencriptar el texto
+        function decryptText() {
+            const text = document.getElementById("input-text").value;
+            const decryptedText = text
+                .replace(/enter/g, "e")
+                .replace(/imes/g, "i")
+                .replace(/ai/g, "a")
+                .replace(/ober/g, "o")
+                .replace(/ufat/g, "u");
+
+            document.getElementById("output-text").value = decryptedText;
+            document.getElementById("input-text").value = ""; // Limpia el primer input
+            autoResize(document.getElementById("output-text"));
+        }
+
+        // Función para copiar el texto
+        function copyText() {
+            const outputText = document.getElementById("output-text");
+            const inputText = document.getElementById("input-text");
+            inputText.value = outputText.value; // Copia el texto encriptado al primer input
+            outputText.value = ""; // Limpia el segundo input
+            inputText.select();
+            document.execCommand("copy");
+            autoResize(inputText);
+        }
+
+        // Función para limpiar el texto
+        function cleanText(text) {
+            // Convertir a minúsculas
+            text = text.toLowerCase();
+
+            // Reemplazar caracteres con acentos
+            text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            // Eliminar caracteres especiales
+            text = text.replace(/[^a-z\s]/g, "");
+
+            return text;
+        }
+    </script>
+    
+</body>
+</html>
